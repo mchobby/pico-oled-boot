@@ -1,0 +1,13 @@
+{
+  "urls": [
+    ["oledboot.py", "github:mchobby/pico-oled-boot/lib/oledboot.py"],
+    ["mcp230xx.py", "github:mchobby/esp8266-upy/mcp230xx/lib/mcp230xx.py"],
+    ["sh1106.py", "github:mchobby/SH1106/sh1106.py"],
+    ["fbutil.py", "github:mchobby/esp8266-upy/FBGFX/lib/fbutil.py"],
+    ["fbdigit.py","github:mchobby/esp8266-upy/FBGFX/lib/fbdigit.py"],
+    ["icons.py", "github:mchobby/esp8266-upy/FBGFX/lib/icons.py"],
+    ["icons8.py", "github:mchobby/esp8266-upy/FBGFX/lib/icons8.py"],
+    ["icontls.py", "github:mchobby/esp8266-upy/FBGFX/lib/icontls.py"]
+  ],
+  "version": "0.0.1"
+}
