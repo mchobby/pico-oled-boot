@@ -22,6 +22,8 @@ Côté logiciel, vous disposez de tous les bibliothèques MicroPython nécessair
 
 ![MenuBoot sur Pico-Oled-Boot](docs/_static/PICO-OLED-BOOT-menu.jpg)
 
+# Schéma
+
 Le [schéma est également disponible ici](docs/_static/pico-oled-boot-schematic.jpg)
 
 # Bibliothèque
@@ -35,6 +37,7 @@ Bibliothèque absolument nécessaires:
 * __sh1106__ : gestion de l'OLED.
 * __mcp230xx__ : lecture du joystick
 
+Celle-cis sont installée avec le package [pico-oled-boot.json](pico-oled-boot.json) .
 
 ## Installer avec MPRemote
 
@@ -59,7 +62,19 @@ Vérifiez le contenu du fichier [package.json](package.json) pour identifier les
 
 Insérer votre carte Pico sur le connecteur femelle présent à l'arrière de votre carte. La présence du libellé __USB__ sur le Pico-Oled-Boot permet d'orienter le Pico (son connecteur USB doit être orienté dans la même direction)
 
-# Test
+# Exemples 
+Le dépôt contient divers exemples pour faciliter la prise en main:
+
+* __[test.py](examples/test.py)__ : script de test utilisé pour vérifier le fonctionnement de la carte (A/B/Start, Joystick, LEDs et OLED)
+*  __[test_menu_basic.py](examples/test_menu_basic.py)__ : Teste les fonctionnalités de base du menu.
+*  __[test_menu_combo.py](examples/test_menu_combo.py)__ : Affiche une COMBO (liste de sélection) pour une entrée menu.
+*  __[test_menu_range.py](examples/test_menu_range.py)__ : Affiche une sélection de valeur numérique (ex: modifier une valeur numérique) pour une entrée menu.
+*  __[test_menu_screen.py](examples/test_menu_screen.py)__ : Teste l'affichage d'un _dashboard_ sir activation d'une entrée menu (permet d'afficher un sous-écran).
+* __[test_i2c_bmp280.py](examples/test_i2c_bmp280.py)__ : Connectez un capteur BMP280/BME280 sur le connecteur Qwiic/StemmaQT, lire les données et les afficher sur l'écran (avec de jolies icones).
+
+![Capteur BMP280/BME280 sur Qwiic/StemmaQT avec affichage de valeur](docs/_static/pico-oled-boot-bmp280.jpg)
+
+# Tester
 
 ## Direction du joystick
 Le script suivant permet de détecter l'orientation du joystick, son bouton Enter et la bouton Start. Ces informations sont affichées sur l'écran OLED.
@@ -503,9 +518,20 @@ Les méthodes principales (commune à tout les contrôleurs) sont les suivantes:
 * __update()__ : appelés continuellement jusuq'à la pression sur ENTER par l'utilisateur. Cette méthode prend en charge l'affichage l'affichage sur l'OLED (et répond aux interactions utilisateurs).
 
 # FBGFX library
-Installé avec la bibliothèque OledBoot, la bibliothèque FBGFX permet d'ajouter des fonctions de dessin supplémentaire au FrameBuffer. Cette bibliothèque dispose également d'une bibliothèque d'icones 5x5 et 8x8 pixels.
+Installé avec la bibliothèque OledBoot, la bibliothèque FBGFX permet d'ajouter des fonctions de dessin supplémentaire au FrameBuffer (primitives graphiques complémentaires). Cette bibliothèque dispose également d'une bibliothèque d'icones 5x5 et 8x8 pixels.
 
 ![FBGFX sample](docs/_static/fbgfx-sample.jpg)
+
+La bibliothèque et sa documentation sont disponibles sur [esp8266-upy/FBGFX](https://github.com/mchobby/esp8266-upy/tree/master/FBGFX)
+
+# RoboEyes Library
+RoboEyes utilise un FrameBuffer pour dessiner et animer des yeux sur un écran.
+
+La bibliothèque RoboEyes pour MicroPython est un portage d'une bibliothèque C destinée à Arduino. 
+
+![RoboEyes sample](docs/_static/roboeyes.jpg)
+
+La bibliothèque et sa documentation sont disponibles sur [micropython-roboeyes](https://github.com/mchobby/micropython-roboeyes)
 
 # Autres bibliothèques utiles
 
@@ -513,7 +539,7 @@ Installé avec la bibliothèque OledBoot, la bibliothèque FBGFX permet d'ajoute
 * [Small-Font](https://github.com/mchobby/esp8266-upy/tree/master/SMALL-FONT) une autre font pour MicroPython
 * [FileFormat](https://github.com/mchobby/esp8266-upy/tree/master/FILEFORMAT) : lescure de fichiers images.
 * [COLORS](https://github.com/mchobby/esp8266-upy/tree/master/COLORS) : manipulation de couleurs
-* [ano-gui](https://github.com/peterhinch/micropython-nano-gui/tree/master) : GUI MicroPython minimalistique par Peter-Hinch
+* [nano-gui](https://github.com/peterhinch/micropython-nano-gui/tree/master) : GUI MicroPython minimalistique par Peter-Hinch
 
 # Liste d'achat
 

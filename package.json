@@ -8,7 +8,12 @@
     ["fbdigit.py","github:mchobby/esp8266-upy/FBGFX/lib/fbdigit.py"],
     ["icons.py", "github:mchobby/esp8266-upy/FBGFX/lib/icons.py"],
     ["icons8.py", "github:mchobby/esp8266-upy/FBGFX/lib/icons8.py"],
-    ["icontls.py", "github:mchobby/esp8266-upy/FBGFX/lib/icontls.py"]
+    ["icontls.py", "github:mchobby/esp8266-upy/FBGFX/lib/icontls.py"],
+    ["roboeyes.py", "github:mchobby/micropython-roboeyes/lib/roboeyes.py"],
+    ["img.py", "github:mchobby/esp8266-upy/FILEFORMAT/imglib/img.py"],
+    ["bmp.py", "github:mchobby/esp8266-upy/FILEFORMAT/imglib/bmp.py"],
+    ["pbm.py", "github:mchobby/esp8266-upy/FILEFORMAT/imglib/pbm.py"],
+    ["bme280.py", "github:mchobby/esp8266-upy/bme280-bmp280/lib/bme280.py"]
   ],
-  "version": "0.1.0"
+  "version": "0.2.0"
 }

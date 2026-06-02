@@ -22,6 +22,8 @@ Software side includes everything you need to run it with MicroPython, an extra 
 
 ![MenuBoot on the Pico-Oled-Boot](docs/_static/PICO-OLED-BOOT-menu.jpg)
 
+# Schematic
+
 The [schematic is also available here](docs/_static/pico-oled-boot-schematic.jpg)
 
 # Library
@@ -58,6 +60,18 @@ You can check the [package.json](package.json) file to locate the various librar
 # Wire
 
 Just plug your Pico onto the female header available on the back of the board. The board shows a __USB__ label on the silkscreen to indicates the orientation of the Pico (its USB connector must be oriented the same way)
+
+# Exemples 
+The repository contains various examples script as first hand helper:
+
+* __[test.py](examples/test.py)__ : test script used to check the board features (A/B/Start, Joystick, LEDs & OLED)
+*  __[test_menu_basic.py](examples/test_menu_basic.py)__ : test the main features of the menu.
+*  __[test_menu_combo.py](examples/test_menu_combo.py)__ : test the combo feature (selection list) for a menu entry.
+*  __[test_menu_range.py](examples/test_menu_range.py)__ : test the range value selection of the menu (ex: changing a numeric value).
+*  __[test_menu_screen.py](examples/test_menu_screen.py)__ : test the screen/dashboard display on menu entry activation.
+* __[test_i2c_bmp280.py](examples/test_i2c_bmp280.py)__ : connect a BMP280/BME280 sensor on the Qwiic/StemmaQT, read the data then display it on the screen (with icon)
+
+![BMP280/BME280 sensor on Qwiic/StemmaQT with displayed value](docs/_static/pico-oled-boot-bmp280.jpg)
 
 # Test
 
@@ -504,6 +518,17 @@ The main methods (common to all controler) are the following:
 Installed with the OledBoot library, the FBGFX library offers FrameBuffer based manipulation utilities as well as icons Library
 
 ![FBGFX sample](docs/_static/fbgfx-sample.jpg)
+
+The library and its documentation are available on [esp8266-upy/FBGFX](https://github.com/mchobby/esp8266-upy/tree/master/FBGFX)
+
+# RoboEyes Library
+RoboEyes do use the FrameBuffer to draw and animate ayes on a display.
+
+The RoboEyes library for MicroPython is a portage of C library initialy made for Arduino.
+
+![RoboEyes sample](docs/_static/roboeyes.jpg)
+
+The library and its documentation are available on [micropython-roboeyes](https://github.com/mchobby/micropython-roboeyes)
 
 # Other useful libraries
 

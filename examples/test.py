@@ -8,12 +8,15 @@ import time
 import micropython
 micropython.alloc_emergency_exception_buf(100)
 
+print( "Display joystick direction (+ Enter +Start) on the display" )
+print( "Pressing button A / B do toggle the Red / Green LEDs." )
+
 labels = {START:"Start", ENTER:"Enter", UP:"Up", DOWN:"Down", LEFT:"Left", RIGHT:"Right"}
 lcd = OledBoot()
+
 # Initialize screen
 lcd.fill(0)
 lcd.show()
-
 
 # Using button A & B with IEQ
 last_a = time.ticks_ms()
