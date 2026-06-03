@@ -37,6 +37,7 @@ Absolute required libraries are:
 * __sh1106__ : required for OLED screen
 * __mcp230xx__ : required for joystick read
 
+Those are installed with the package [pico-oled-boot/package.json](package.json) .
 
 ## Install with MPRemote
 

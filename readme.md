@@ -37,7 +37,7 @@ Bibliothèque absolument nécessaires:
 * __sh1106__ : gestion de l'OLED.
 * __mcp230xx__ : lecture du joystick
 
-Celle-cis sont installée avec le package [pico-oled-boot.json](pico-oled-boot.json) .
+Celle-cis sont installée avec le package [pico-oled-boot/package.json](package.json) .
 
 ## Installer avec MPRemote
 
