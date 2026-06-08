@@ -32,8 +32,9 @@ La bibliothèque doit être copiée sur votre carte MicroPython MicroPython avan
 
 Bibliothèque absolument nécessaires:
 
-* __oledboot__ : HELPER facilitant l'acc!s aux fonctionnalités de Pico-Oled-Boot.
+* __oledboot__ : HELPER facilitant l'accàs aux fonctionnalités de Pico-Oled-Boot.
 * __menuboot__ : affichage et gestion de MENU.
+* __olededit__ : saisie de données.
 * __sh1106__ : gestion de l'OLED.
 * __mcp230xx__ : lecture du joystick
 
@@ -66,10 +67,13 @@ Insérer votre carte Pico sur le connecteur femelle présent à l'arrière de vo
 Le dépôt contient divers exemples pour faciliter la prise en main:
 
 * __[test.py](examples/test.py)__ : script de test utilisé pour vérifier le fonctionnement de la carte (A/B/Start, Joystick, LEDs et OLED)
-*  __[test_menu_basic.py](examples/test_menu_basic.py)__ : Teste les fonctionnalités de base du menu.
+*  __[test_menu_basic.py](examples/test_menu_basic.py)__ : Teste les fonctionnalités de base du menu.<br />![OledMenu en action](docs/_static/menu-boot-01.jpg)
 *  __[test_menu_combo.py](examples/test_menu_combo.py)__ : Affiche une COMBO (liste de sélection) pour une entrée menu.
 *  __[test_menu_range.py](examples/test_menu_range.py)__ : Affiche une sélection de valeur numérique (ex: modifier une valeur numérique) pour une entrée menu.
 *  __[test_menu_screen.py](examples/test_menu_screen.py)__ : Teste l'affichage d'un _dashboard_ sir activation d'une entrée menu (permet d'afficher un sous-écran).
+*  __[test_input_screen.py](examples/test_input_screen.py)__ : Affichage d'une zone d'édition pour encodage de données<br />![Field Editor](docs/_static/oled-edit-01.jpg)
+* __[test_input_keypress.py](examples/test_input_keypress.py)__ : Validation du caractère avant son ajout dans la valeur encodée.
+* __[test_input_validate.py](examples/test_input_validate.py)__ : Validation de la valeur (`value`) lors de l'activation du bouton OK. 
 * __[test_i2c_bmp280.py](examples/test_i2c_bmp280.py)__ : Connectez un capteur BMP280/BME280 sur le connecteur Qwiic/StemmaQT, lire les données et les afficher sur l'écran (avec de jolies icones).
 
 ![Capteur BMP280/BME280 sur Qwiic/StemmaQT avec affichage de valeur](docs/_static/pico-oled-boot-bmp280.jpg)
@@ -143,6 +147,36 @@ def b_pressed( pin ):
 lcd.a.irq( handler=a_pressed, trigger=Pin.IRQ_RISING )
 lcd.b.irq( handler=b_pressed, trigger=Pin.IRQ_RISING )
 ``` 
+
+## Affichage du menu
+
+Voir la description de la bibliothèque OledMenu ci-dessous (et les fichiers d'exemples).
+
+## Saisie de données
+
+Le script ci-dessous permet de saisir des données avec la classe __EditScreen__. Le script est disponible dans les exemples sous le nom [examples/test_input_screen.py](examples/test_input_screen.py) .
+
+![Ecran d'édition](docs/_static/oled-edit-00.jpg)
+
+Pour la validation de données et saisir numérique, voir les exemples [test_input_keypress.py](examples/test_input_keypress.py) et [test_input_validate.py](examples/test_input_validate.py)
+
+``` python 
+from oledboot import *
+from olededit import EditScreen
+
+oled = OledBoot()
+print( "Showing Input Screen..." )
+scr = EditScreen( oled, 'Name:', 'David' )
+if scr.show():
+    oled.fill(0)
+    oled.text( scr.value, 1, 0 )
+    oled.show()
+else:
+    oled.fill(0)
+    oled.text( "Cancelled!", 1, 0 )
+    oled.show()
+print( "That s all folks!" )
+```
 
 # Bibliothèque OledBoot
 
@@ -517,14 +551,74 @@ Les méthodes principales (commune à tout les contrôleurs) sont les suivantes:
 * __start()__ : initialise l'état interne du contrôleur. Il est suivit d'appels à la méthode `update()` .
 * __update()__ : appelés continuellement jusuq'à la pression sur ENTER par l'utilisateur. Cette méthode prend en charge l'affichage l'affichage sur l'OLED (et répond aux interactions utilisateurs).
 
-# FBGFX library
+# Bibliothèque OledEdit
+
+Le script [olededit.py](lib/olededit.py) contient la classe __EditScreen__ autorisant la saisie et le contrôle de données alphanumérique avec le joystick du Pico-Oled-Boot.
+
+Le fonctionnement de l'éditeur est relativement intuitif. le joystick est utiliser pour sélectionner les caractères (gauche/droite), déplacer le focus (haut/bas) et de confirmer (presser). A noter que la direction HAUT sur roue des caractère permet de sauter plusieurs caractères d'un coup.
+
+![Fonctionnement de l'éditeur](docs/_static/oled-edit-00.jpg)
+
+![Fonctionnement de l'éditeur](docs/_static/oled-edit-01.jpg)
+
+![Fonctionnement de l'éditeur](docs/_static/oled-edit-03.jpg)
+
+![Fonctionnement de l'éditeur](docs/_static/oled-edit-04.jpg)
+
+![Fonctionnement de l'éditeur](docs/_static/oled-edit-05.jpg)
+
+## Constantes
+Les constantes `STATE_xxx` permet d'indiquer la roue de caractère à utiliser au démarrage.
+``` python
+STATE_NORMAL = const(0) # Display normal char
+STATE_SHIFTED= const(1) # Display Uppercase Char
+STATE_DIGIT  = const(2) # Display Digit + Decimal_Separator
+STATE_SYMBOL = const(3) # Displat @, #, (, ...
+```
+
+## Classe EditScreen
+
+La classe __EditScreen__ pilote l'afficheur pendant la saisie et rend la main à l'appelant à la confirmation ou abandon de la saisie.
+
+![Fonctionnement de l'éditeur](docs/_static/oled-edit-00.jpg)
+
+### Constructor
+
+```
+def __init__( self, oled_boot, label, initial_value='', on_key_press=None, on_validate=None, initial_state=STATE_NORMAL )
+```
+
+* __oled_boot__ : référence sur l'objet __OledBoot__ (descendant de __FrameBuffer__) offrant l'accès à l'écran OLED ainsi qu'au différentes interfaces de contrôle.
+* __label__ : libellé affiché au dessus de la zone de saisie.
+* __initial_value__ : (optionnel, string) valeur initiale de la zone de saisie.
+* __on_key_press__ : (optionnel) permet d'attacher un événement callback appelé juste avant l'ajout d'un caractère à la saisir. Permet de refuser l'ajout en retournant False. <br />Event(Owner,Key) où `owner` est l'instance EditScreen et `key` le code ASCII du caractère ajouté.
+* __on_validate__ : (optionnel) permet d'attacher un événement callback permettant de vétifier la valeur encodée avant d'accepter la pression du bouton OK. La callback doit retourner True pour accepter la saisir. Les exceptions __ValueError__ sont également capturées et le message pendant une seconde.<br />Event(value) où `value` contient la valeur saisie
+* __initial_state__ : (optionnel, constante STATE_xxx) état initial de la roue de caractères. Permet de présélectionner une alternative à la roue alphabétique.
+
+### Attribut value : string
+
+Valeur saisie par l'utilisateur.
+
+### Méthode show() : boolean
+
+``` 
+def show( self ):
+```
+
+Démarre la saisie et retourne True lorsque la saisie est terminée (pression sur le bouton OK) ou False lorsque la saisie est abandonnée (pression sur le bouton Cancel).
+
+La valeur saisie est disponible dans l'attribut `value`.
+
+
+
+# Bibliothèque FBGFX
 Installé avec la bibliothèque OledBoot, la bibliothèque FBGFX permet d'ajouter des fonctions de dessin supplémentaire au FrameBuffer (primitives graphiques complémentaires). Cette bibliothèque dispose également d'une bibliothèque d'icones 5x5 et 8x8 pixels.
 
 ![FBGFX sample](docs/_static/fbgfx-sample.jpg)
 
 La bibliothèque et sa documentation sont disponibles sur [esp8266-upy/FBGFX](https://github.com/mchobby/esp8266-upy/tree/master/FBGFX)
 
-# RoboEyes Library
+# Bibliothèque RoboEyes
 RoboEyes utilise un FrameBuffer pour dessiner et animer des yeux sur un écran.
 
 La bibliothèque RoboEyes pour MicroPython est un portage d'une bibliothèque C destinée à Arduino. 

@@ -34,6 +34,7 @@ Absolute required libraries are:
 
 * __oledboot__ : HELPER for using the board features.
 * __menuboot__ : MENU drawing and handling.
+* __olededit__ : data encoding screen.
 * __sh1106__ : required for OLED screen
 * __mcp230xx__ : required for joystick read
 
@@ -66,10 +67,13 @@ Just plug your Pico onto the female header available on the back of the board. T
 The repository contains various examples script as first hand helper:
 
 * __[test.py](examples/test.py)__ : test script used to check the board features (A/B/Start, Joystick, LEDs & OLED)
-*  __[test_menu_basic.py](examples/test_menu_basic.py)__ : test the main features of the menu.
+*  __[test_menu_basic.py](examples/test_menu_basic.py)__ : test the main features of the menu.<br />![OledMenu en action](docs/_static/menu-boot-01.jpg)
 *  __[test_menu_combo.py](examples/test_menu_combo.py)__ : test the combo feature (selection list) for a menu entry.
 *  __[test_menu_range.py](examples/test_menu_range.py)__ : test the range value selection of the menu (ex: changing a numeric value).
 *  __[test_menu_screen.py](examples/test_menu_screen.py)__ : test the screen/dashboard display on menu entry activation.
+* __[test_input_screen.py](examples/test_input_screen.py)__ : Display an edit field to encode data<br />![Field Editor](docs/_static/oled-edit-01.jpg)
+* __[test_input_keypress.py](examples/test_input_keypress.py)__ : Character validation before adding it to the encoded value.
+* __[test_input_validate.py](examples/test_input_validate.py)__ : Validate tje `value` when the OK button is activated. 
 * __[test_i2c_bmp280.py](examples/test_i2c_bmp280.py)__ : connect a BMP280/BME280 sensor on the Qwiic/StemmaQT, read the data then display it on the screen (with icon)
 
 ![BMP280/BME280 sensor on Qwiic/StemmaQT with displayed value](docs/_static/pico-oled-boot-bmp280.jpg)
@@ -142,6 +146,36 @@ def b_pressed( pin ):
 lcd.a.irq( handler=a_pressed, trigger=Pin.IRQ_RISING )
 lcd.b.irq( handler=b_pressed, trigger=Pin.IRQ_RISING )
 ``` 
+
+## Menu display
+
+See below the OledMenu library description (and file examples).
+
+## User data acquisition
+
+The code below is used to capture data with the __EditScreen__ class. The example script is available under the file [examples/test_input_screen.py](examples/test_input_screen.py) .
+
+![Edit Screen](docs/_static/oled-edit-00.jpg)
+
+See the following examples for data validation and numeric acquisition : [test_input_keypress.py](examples/test_input_keypress.py) and [test_input_validate.py](examples/test_input_validate.py)
+
+``` python 
+from oledboot import *
+from olededit import EditScreen
+
+oled = OledBoot()
+print( "Showing Input Screen..." )
+scr = EditScreen( oled, 'Name:', 'David' )
+if scr.show():
+    oled.fill(0)
+    oled.text( scr.value, 1, 0 )
+    oled.show()
+else:
+    oled.fill(0)
+    oled.text( "Cancelled!", 1, 0 )
+    oled.show()
+print( "That s all folks!" )
+```
 
 # OledBoot library
 
@@ -514,6 +548,64 @@ The main methods (common to all controler) are the following:
 
 * __start()__ : initialise the internal state of the controler. It is followed by continuous call to `update()` .
 * __update()__ : continuously called until the user press ENTER key. This method is in charge of the drawing the Oled and respond to user interaction.
+
+# OledEdit library
+
+The [olededit.py](lib/olededit.py) script contains the __EditScreen__ class used to key-in alphanumeric user data with the Pico-Oled-Boot joystick.
+
+The field editor encoding is kindly intuitive, the joystick is used to select the charactersLe (left/right), move the focus (up/down) and to confirm selection  (press). Note that using UP direction with the character whell do jump several letters at once.
+
+![Working with field editor](docs/_static/oled-edit-00.jpg)
+
+![Working with field editor](docs/_static/oled-edit-01.jpg)
+
+![Working with field editor](docs/_static/oled-edit-03.jpg)
+
+![Working with field editor](docs/_static/oled-edit-04.jpg)
+
+![Working with field editor](docs/_static/oled-edit-05.jpg)
+
+## Constants
+The `STATE_xxx` constants are used to select the initial characters wheel at startup.
+``` python
+STATE_NORMAL = const(0) # Display normal char
+STATE_SHIFTED= const(1) # Display Uppercase Char
+STATE_DIGIT  = const(2) # Display Digit + Decimal_Separator
+STATE_SYMBOL = const(3) # Displat @, #, (, ...
+```
+
+## EditScreen class
+
+The __EditScreen__ class drives the display while capturing user data then returns to the callee when the data is comfirmed by the user.
+
+![Working with the editor](docs/_static/oled-edit-00.jpg)
+
+### Constructor
+
+```
+def __init__( self, oled_boot, label, initial_value='', on_key_press=None, on_validate=None, initial_state=STATE_NORMAL )
+```
+
+* __oled_boot__ : reference to the __OledBoot__ object (that herits from  __FrameBuffer__) giving access to the OLED display and various user input interface.
+* __label__ : text displayed above the edit field.
+* __initial_value__ : (optional) initial string value displayed into the edit field.
+* __on_key_press__ : (optional) used to attach a callback event called just before its addition to the edit field. Can be used to reject selection when returning False. <br />Event(Owner,Key) where `owner` is the EditScreen instance and `key` the ASCII code of the added char.
+* __on_validate__ : (optional) used to attach a callback event called before accepting the OK button. It is used to validate the input by returning True/False. The __ValueError__ exception are also captured and their message shown on the display for a second.<br />Event(value) where `value` contains the captured value.
+* __initial_state__ : (optional, STATE_xxx constants) initial state of the character wheel. Allow the selection of an alternate wheel (like digits).
+
+### Member value : string
+
+Value captured by the user.
+
+### Method show() : boolean
+
+``` 
+def show( self ):
+```
+
+Start data capture and return True/False depending on OK/Cancel user confirmation.
+
+The captured value is available via the `value` attribute.
 
 # FBGFX library
 Installed with the OledBoot library, the FBGFX library offers FrameBuffer based manipulation utilities as well as icons Library

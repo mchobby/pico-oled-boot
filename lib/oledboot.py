@@ -12,6 +12,8 @@ START= const(32)
 
 JOY_VALUES = [DOWN,ENTER,RIGHT,UP,LEFT,START]
 
+DIR_REPEAT_MS = 150  # Time for automatic direction repeat
+
 class LedAdapter:
 	def __init__( self, mcp, gpio ):
 		self.mcp = mcp

@@ -30,13 +30,12 @@ __version__ = '0.0.2'
 
 from icons8 import NO
 from icontls import draw_icon
-from oledboot import UP,DOWN,RIGHT,LEFT,ENTER
+from oledboot import UP,DOWN,RIGHT,LEFT,ENTER,DIR_REPEAT_MS
 import time
 
 def map(x, in_min, in_max, out_min, out_max):
     return (x - in_min) * (out_max - out_min) // (in_max - in_min) + out_min
 
-DIR_REPEAT_MS = 150 # Time for automatic direction repeat
 
 # ------------------------------------------------------------------------------
 #   MENU ITEM
