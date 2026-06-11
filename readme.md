@@ -74,9 +74,8 @@ Le dépôt contient divers exemples pour faciliter la prise en main:
 *  __[test_input_screen.py](examples/test_input_screen.py)__ : Affichage d'une zone d'édition pour encodage de données<br />![Field Editor](docs/_static/oled-edit-01.jpg)
 * __[test_input_keypress.py](examples/test_input_keypress.py)__ : Validation du caractère avant son ajout dans la valeur encodée.
 * __[test_input_validate.py](examples/test_input_validate.py)__ : Validation de la valeur (`value`) lors de l'activation du bouton OK. 
-* __[test_i2c_bmp280.py](examples/test_i2c_bmp280.py)__ : Connectez un capteur BMP280/BME280 sur le connecteur Qwiic/StemmaQT, lire les données et les afficher sur l'écran (avec de jolies icones).
-
-![Capteur BMP280/BME280 sur Qwiic/StemmaQT avec affichage de valeur](docs/_static/pico-oled-boot-bmp280.jpg)
+* __[test_i2c_bmp280.py](examples/test_i2c_bmp280.py)__ : Connectez un capteur BMP280/BME280 sur le connecteur Qwiic/StemmaQT, lire les données et les afficher sur l'écran (avec de jolies icones).<br />![Capteur BMP280/BME280 sur Qwiic/StemmaQT avec affichage de valeur](docs/_static/pico-oled-boot-bmp280.jpg)
+* __[games/racer/racer.py](examples/games/racer/racer.py)__ : jeu de course<br />![jeu racer](examples/games/racer/docs/racer-01-lowres.jpg)
 
 # Tester
 
