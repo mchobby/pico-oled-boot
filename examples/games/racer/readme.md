@@ -5,6 +5,8 @@ Adapted from Makerblot.at Arduino project.
 
 Code improved to add more vehicule definition.
 
+GPIO 16 is reserved for PWM buzzer.
+
 Ideas: Adding effet 
  - Speedy    : Allow Car to move forward by pressing A+B (will slowly get back to its bottom position when releasing A+B)
  - Weapon    : Allow Car to explore front obstable with A+B (limit it to 3 times)
