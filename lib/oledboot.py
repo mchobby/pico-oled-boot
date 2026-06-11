@@ -35,7 +35,7 @@ class LedAdapter:
 
 
 class OledBoot(SH1106_I2C):
-	def __init__( self, oled_addr=0x3c, mcp_addr=0x26 ):
+	def __init__( self, oled_addr=0x3c, mcp_addr=0x26, rotate=0 ):
 		self.i2c = I2C( 1, sda=Pin(6), scl=Pin(7), freq=400000 )
 		self.a = Pin( 3, Pin.IN, Pin.PULL_UP )
 		self.b = Pin( 2, Pin.IN, Pin.PULL_UP )
@@ -51,7 +51,7 @@ class OledBoot(SH1106_I2C):
 		self.red = LedAdapter( self.mcp, 6 )
 		self.green = LedAdapter( self.mcp, 5 )
 
-                super().__init__( 128, 64, self.i2c, None, oled_addr )
+                super().__init__( 128, 64, self.i2c, None, oled_addr, rotate=rotate )
                 self.sleep(False) # Wake-up the OLED
 
 
