@@ -75,6 +75,7 @@ The repository contains various examples script as first hand helper:
 * __[test_input_keypress.py](examples/test_input_keypress.py)__ : Character validation before adding it to the encoded value.
 * __[test_input_validate.py](examples/test_input_validate.py)__ : Validate tje `value` when the OK button is activated. 
 * __[test_i2c_bmp280.py](examples/test_i2c_bmp280.py)__ : connect a BMP280/BME280 sensor on the Qwiic/StemmaQT, read the data then display it on the screen (with icon).<br />![BMP280/BME280 sensor on Qwiic/StemmaQT with displayed value](docs/_static/pico-oled-boot-bmp280.jpg)
+* __[bootloader](examples/booloader/)__ : bootloader with autorun and selection menu  for starting script. Pres A to force menu display. Press B to skip autorun (go to REPL)<br />[See how it works!](examples/bootloader/docs/autorun-howto.jpg)<br />![bootloader menu in action](examples/bootloader/docs/autorun.jpg)
 * __[games/racer/racer.py](examples/games/racer/racer.py)__ : jeu de course<br />![jeu racer](examples/games/racer/docs/racer-01-lowres.jpg)
 
 # Test

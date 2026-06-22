@@ -18,7 +18,7 @@ lcd = OledBoot()
 lcd.fill(0)
 lcd.show()
 
-# Using button A & B with IEQ
+# Using button A & B with IRQ
 last_a = time.ticks_ms()
 def a_pressed( pin ):
 	global lcd, last_a
