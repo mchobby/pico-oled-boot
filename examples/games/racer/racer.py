@@ -4,7 +4,7 @@
 #
 # Hardware Requirement:
 # - Pico-Oled-Boot
-# - Buzzer wired to xxx
+# - Buzzer wired to GP16
 #
 # Optimization:
 #   To avoid floating point numbers (float), all relevant4 positions and speeds are scaled by a factor of 10 and stored as integers.
@@ -112,9 +112,7 @@ MAX_CAR = len(cars)-1
 
 # Setup
 button_left = display.a
-button_tight = display.b 
-
-buzzer = machine.PWM( Pin(PIN_BUZZER) )
+button_right = display.b 
 
 random.seed(0) # Use Pico Hardware Entropy Pool
 
