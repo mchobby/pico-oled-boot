@@ -10,6 +10,7 @@ GPIO 16 is reserved for PWM buzzer... but no music.
 ![Ardu Flappy](docs/flappy-01.jpg)
 
 Original Source:
+
 * https://github.com/adidax/oled-flappy-bird-arduino
 * https://www.makerblog.at/
 

@@ -77,6 +77,8 @@ The repository contains various examples script as first hand helper:
 * __[test_i2c_bmp280.py](examples/test_i2c_bmp280.py)__ : connect a BMP280/BME280 sensor on the Qwiic/StemmaQT, read the data then display it on the screen (with icon).<br />![BMP280/BME280 sensor on Qwiic/StemmaQT with displayed value](docs/_static/pico-oled-boot-bmp280.jpg)
 * __[bootloader](examples/booloader/)__ : bootloader with autorun and selection menu  for starting script. Pres A to force menu display. Press B to skip autorun (go to REPL)<br />[See how it works!](examples/bootloader/docs/autorun-howto.jpg)<br />![bootloader menu in action](examples/bootloader/docs/autorun.jpg)
 * __[games/racer/racer.py](examples/games/racer/racer.py)__ : jeu de course<br />![jeu racer](examples/games/racer/docs/racer-01-lowres.jpg)
+*  __[games/racer/flappy.py](examples/games/flappy/flappy.py)__ : Ardu Flappy game adapted to MicroPython (a flappy bird clone alike)<br />![jeu flappy](examples/games/flappy/docs/flappy-00.jpg)
+* __[games/memory/memory.py](examples/games/memory/memory.py)__ : The "Memory" game not as simple as it may look at first sight!<br />![memory game](examples/games/memory/docs/memory-03.jpg)
 
 # Test
 

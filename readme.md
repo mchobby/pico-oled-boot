@@ -78,6 +78,7 @@ Le dépôt contient divers exemples pour faciliter la prise en main:
 * __[bootloader](examples/booloader/)__ : bootloader avec autorun et menu de sélection du script a démarrer. Presser A pour forcer le menu. Presser B pour annuler l'autorun (vers REPL)<br />[Voir comment cela marche!](examples/bootloader/docs/autorun-howto.jpg)<br />![bootloader menu](examples/bootloader/docs/autorun.jpg)
 * __[games/racer/racer.py](examples/games/racer/racer.py)__ : jeu de course<br />![jeu racer](examples/games/racer/docs/racer-01-lowres.jpg)
 * __[games/racer/flappy.py](examples/games/flappy/flappy.py)__ : adaptation du jeu Ardu Flappy (un clone de flappy bird)<br />![jeu flappy](examples/games/flappy/docs/flappy-00.jpg)
+* __[games/memory/memory.py](examples/games/memory/memory.py)__ : Un jeu "Memory" pas si simple qu'il n'y parait!<br />![jeu memory](examples/games/memory/docs/memory-03.jpg)
 
 # Tester
 
