@@ -40,6 +40,12 @@ Bibliothèque absolument nécessaires:
 
 Celle-cis sont installée avec le package [pico-oled-boot/package.json](package.json) .
 
+## Installation Masters
+
+Le répertoire [masters.out/](masters.out) contient des archives reprenant les exemples et les bibliothèques nécessaires... tout est là!
+
+Il suffit de copier le contenu de l'archive sur votre carte MicroPython en respectant la structure du système de fichiers présent dans l'archive.
+
 ## Installer avec MPRemote
 
 Sur une plateforme WiFi:
@@ -54,10 +60,6 @@ Ou via l'utilitaire mpremote :
 ```
 mpremote mip install github:mchobby/pico-oled-boot
 ```
-
-## Installation manuelle
-
-Vérifiez le contenu du fichier [package.json](package.json) pour identifier les différentes bibliothèques et copier les fichiers sur votre carte micropython.
 
 # Brancher
 
@@ -75,10 +77,13 @@ Le dépôt contient divers exemples pour faciliter la prise en main:
 * __[test_input_keypress.py](examples/test_input_keypress.py)__ : Validation du caractère avant son ajout dans la valeur encodée.
 * __[test_input_validate.py](examples/test_input_validate.py)__ : Validation de la valeur (`value`) lors de l'activation du bouton OK. 
 * __[test_i2c_bmp280.py](examples/test_i2c_bmp280.py)__ : Connectez un capteur BMP280/BME280 sur le connecteur Qwiic/StemmaQT, lire les données et les afficher sur l'écran (avec de jolies icones).<br />![Capteur BMP280/BME280 sur Qwiic/StemmaQT avec affichage de valeur](docs/_static/pico-oled-boot-bmp280.jpg)
+* __roboeyes (exemples)__ : utiliser la bibliothèque RoboEyes avec le Pico-Oled-Boot<br />![Exemples RoboEyes](docs/_static/roboeyes.jpg)
 * __[bootloader](examples/booloader/)__ : bootloader avec autorun et menu de sélection du script a démarrer. Presser A pour forcer le menu. Presser B pour annuler l'autorun (vers REPL)<br />[Voir comment cela marche!](examples/bootloader/docs/autorun-howto.jpg)<br />![bootloader menu](examples/bootloader/docs/autorun.jpg)
 * __[games/racer/racer.py](examples/games/racer/racer.py)__ : jeu de course<br />![jeu racer](examples/games/racer/docs/racer-01-lowres.jpg)
 * __[games/racer/flappy.py](examples/games/flappy/flappy.py)__ : adaptation du jeu Ardu Flappy (un clone de flappy bird)<br />![jeu flappy](examples/games/flappy/docs/flappy-00.jpg)
 * __[games/memory/memory.py](examples/games/memory/memory.py)__ : Un jeu "Memory" pas si simple qu'il n'y parait!<br />![jeu memory](examples/games/memory/docs/memory-03.jpg)
+* __[games/conway/conway.py](examples/games/conway/conway.py)__ : Implementation du jeu de la vie pour Pico-Oled-Boot (dalle de 88x44). Existe aussi sous la forme 30x30 avec [games/conway/conwaysmall.py](examples/games/conway/conwaysmall.py)<br />![Game of Life](examples/games/conway/docs/conway-01.jpg)
+* __[games/tetris/tetris.py](examples/games/tetris/tetris.py)__ : Implementation du jeu Tetris pour Pico-Oled-Boot.<br />![Jeu Tetris](examples/games/tetris/docs/tetris-02.jpg)
 
 # Tester
 

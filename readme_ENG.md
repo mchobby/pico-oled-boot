@@ -40,6 +40,12 @@ Absolute required libraries are:
 
 Those are installed with the package [pico-oled-boot/package.json](package.json) .
 
+## Masters installation
+
+The [masters.out/](masters.out) folder contains archive containing examples and libraries... everything is there!
+
+You just need to copy the archive content on you MicroPython board while preserving the filesystem folder structure.
+
 ## Install with MPRemote
 
 On a WiFi capable plateform:
@@ -55,15 +61,12 @@ Or via the mpremote utility :
 mpremote mip install github:mchobby/pico-oled-boot
 ```
 
-## Manual install
-
-You can check the [package.json](package.json) file to locate the various libraries then copy the required files to your micropython board.
 
 # Wire
 
 Just plug your Pico onto the female header available on the back of the board. The board shows a __USB__ label on the silkscreen to indicates the orientation of the Pico (its USB connector must be oriented the same way)
 
-# Exemples 
+# Examples 
 The repository contains various examples script as first hand helper:
 
 * __[test.py](examples/test.py)__ : test script used to check the board features (A/B/Start, Joystick, LEDs & OLED)
@@ -75,10 +78,13 @@ The repository contains various examples script as first hand helper:
 * __[test_input_keypress.py](examples/test_input_keypress.py)__ : Character validation before adding it to the encoded value.
 * __[test_input_validate.py](examples/test_input_validate.py)__ : Validate tje `value` when the OK button is activated. 
 * __[test_i2c_bmp280.py](examples/test_i2c_bmp280.py)__ : connect a BMP280/BME280 sensor on the Qwiic/StemmaQT, read the data then display it on the screen (with icon).<br />![BMP280/BME280 sensor on Qwiic/StemmaQT with displayed value](docs/_static/pico-oled-boot-bmp280.jpg)
+* __RoboEyes examples__ : using RoboEyes on the Pico-Oled-Boot<br />![RoboEyes sample](docs/_static/roboeyes.jpg)
 * __[bootloader](examples/booloader/)__ : bootloader with autorun and selection menu  for starting script. Pres A to force menu display. Press B to skip autorun (go to REPL)<br />[See how it works!](examples/bootloader/docs/autorun-howto.jpg)<br />![bootloader menu in action](examples/bootloader/docs/autorun.jpg)
 * __[games/racer/racer.py](examples/games/racer/racer.py)__ : jeu de course<br />![jeu racer](examples/games/racer/docs/racer-01-lowres.jpg)
 *  __[games/racer/flappy.py](examples/games/flappy/flappy.py)__ : Ardu Flappy game adapted to MicroPython (a flappy bird clone alike)<br />![jeu flappy](examples/games/flappy/docs/flappy-00.jpg)
 * __[games/memory/memory.py](examples/games/memory/memory.py)__ : The "Memory" game not as simple as it may look at first sight!<br />![memory game](examples/games/memory/docs/memory-03.jpg)
+* __[games/conway/conway.py](examples/games/conway/conway.py)__ : Implementation of the Conway game of life for Pico-Oled-Boot (area of 88x44). Also exists with 30x30 area with  [games/conway/conwaysmall.py](examples/games/conway/conwaysmall.py)<br />![Game of Life](examples/games/conway/docs/conway-01.jpg)
+* __[games/tetris/tetris.py](examples/games/tetris/tetris.py)__ : Implementation of the Tetris game for Pico-Oled-Boot.<br />![Tetris Game](examples/games/tetris/docs/tetris-02.jpg)
 
 # Test
 

@@ -8,3 +8,10 @@ It uses glyph/symbols to distinct the each cards (drawed in blue)
 The gameplay switch between the left and right pane while selecting the card. The matching result is showned between the panes.
 
 ![Memory gameplay](docs/memory-gameplay.jpg)
+
+## Know issues
+* None
+
+## Improvements
+
+* Select user Level (number of figure used in the fame)

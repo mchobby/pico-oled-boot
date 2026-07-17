@@ -3,6 +3,8 @@ from sh1106 import SH1106_I2C
 from mcp230xx import MCP23008
 from micropython import const
 
+__version__ = '0.1.1'
+
 DOWN = const(1)
 UP   = const(8)
 RIGHT= const(4)
@@ -51,9 +53,16 @@ class OledBoot(SH1106_I2C):
 		self.red = LedAdapter( self.mcp, 6 )
 		self.green = LedAdapter( self.mcp, 5 )
 
-                super().__init__( 128, 64, self.i2c, None, oled_addr, rotate=rotate )
-                self.sleep(False) # Wake-up the OLED
+		super().__init__( 128, 64, self.i2c, None, oled_addr, rotate=rotate )
+		self.sleep(False) # Wake-up the OLED
 
+	@property
+	def any_key_pressed( self ):
+		""" Check if any key is pressed """
+		# PULLUP logic: LOW means pressed
+		if (self.a.value()==0) or (self.b.value()==0):
+			return True
+		return self.dir in (START,ENTER)
 
 	@property
 	def dir( self ):

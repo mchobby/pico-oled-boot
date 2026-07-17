@@ -1,8 +1,6 @@
 # Tooling
 docs/push.sh
-pushgit.sh
-makezip.sh
-install.sh
+*.sh
 docs.private
 
 

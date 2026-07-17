@@ -1,0 +1,67 @@
+-----------------------------
+-  Somes games of interest  -
+-----------------------------
+
+# 10 retro-games for arduino and OLED
+
+- Asteroids – Navigate and destroy space rocks.
+- Breakout – Classic paddle and ball brick-breaking action.
+- Dino Run – Skip over obstacles in this endless runner.
+- Flappy Bird – Avoid pipes with perfectly timed flaps.
+- Maze Runner – Find your way through randomly generated mazes.
+- Pacman – Eat dots and avoid ghosts in the classic maze.
+- Pong – The original table tennis simulation.
+- Snake – Grow as long as possible without hitting walls or yourself.
+- Space Invaders – Defend Earth from waves of alien invaders.
+- Tetris – Stack blocks and clear lines in this iconic puzzle game.
+
+
+https://circuitdigest.com/microcontroller-projects/handheld-arduino-game-console
+https://github.com/Circuit-Digest/DIY-Handheld-Arduino-Game-Console
+
+# MoonBench 
+
+Some mini-game idea (including a memory game)
+
+https://www.moonbench.xyz/projects/1-bit-oled-art-gallery/
+
+# StarWars game
+
+Youtube: https://youtu.be/gIdPQISg5f8?si=9VZ1WAiNB3lQwap7
+Code: https://drive.google.com/file/d/173oF359MTnhlEGFCSyQ2IM8ctHyxvs3U/view
+
+
+# ESP32 Breakout
+
+https://github.com/moisesmoalde/esp32-breakout
+
+# Dino Jump
+
+https://github.com/makeabilitylab/arduino/tree/master/OLED/DinoJumpGame
+
+# Pong: two players
+
+https://github.com/makeabilitylab/arduino/tree/master/OLED/Pong 
+
+# MineSweeper
+
+-----------------------------
+-  Somes CLOCK of interest   -
+-----------------------------
+
+Alarm Timer
+Chronometer
+GPIO meter (start & stop with GPIO)
+Clock (if PCF or DS3231 wired)
+
+-----------------------------
+-  Somes ACCS of interest   -
+-----------------------------
+
+Click Counter
+
+-----------------------------
+-  Somes I2C of interest   -
+-----------------------------
+
+Compass
