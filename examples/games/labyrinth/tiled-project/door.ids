@@ -1,0 +1,4 @@
+# Tiled Tile_ID identified as Doors.
+# IDs are encoded over 4 position each and chained as follows: <CLOSED_TileID><OPENNED_TileID>
+# So with 00650066, the closed door tile 65 have the openned door tile 66.
+00650066,00860066,00670066
