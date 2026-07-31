@@ -84,6 +84,7 @@ Le dépôt contient divers exemples pour faciliter la prise en main:
 * __[games/memory/memory.py](examples/games/memory/memory.py)__ : Un jeu "Memory" pas si simple qu'il n'y parait!<br />![jeu memory](examples/games/memory/docs/memory-03.jpg)
 * __[games/conway/conway.py](examples/games/conway/conway.py)__ : Implementation du jeu de la vie pour Pico-Oled-Boot (dalle de 88x44). Existe aussi sous la forme 30x30 avec [games/conway/conwaysmall.py](examples/games/conway/conwaysmall.py)<br />![Game of Life](examples/games/conway/docs/conway-01.jpg)
 * __[games/tetris/tetris.py](examples/games/tetris/tetris.py)__ : Implementation du jeu Tetris pour Pico-Oled-Boot.<br />![Jeu Tetris](examples/games/tetris/docs/tetris-02.jpg)
+* __[games/labyrinth/labyrinth.py](examples/games/labyrinth/micropython/labyrinth.py)__ : Jeu de Labyrinthe avec éditeur de niveau (et instructions) pour Pico-Oled-Boot.<br />![Jeu Labyrinth](examples/games/labyrinth/docs/labyrinth-interface.jpg)
 
 # Tester
 
