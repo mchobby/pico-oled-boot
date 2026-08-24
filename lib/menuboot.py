@@ -58,9 +58,9 @@ class MenuItem:
 
 	def __repr__(self):
 		if (self.cargo != None) and ('value' in dir(self.cargo)):
-			return '<%s "%s">' % (self.code, self.label % self.cargo.value )
+			return '<%s code=%s label="%s">' % (self.__class__.__name__, self.code, self.label % self.cargo.value )
 		else:
-			return '<%s "%s">' % (self.code, self.label)
+			return '<%s code=%s label="%s">' % (self.__class__.__name__, self.code, self.label)
 
 	def draw( self, oled, x, y ):
 		# Display menu entry from position x, y

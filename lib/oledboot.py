@@ -2,8 +2,9 @@ from machine import I2C, Pin
 from sh1106 import SH1106_I2C
 from mcp230xx import MCP23008
 from micropython import const
+import time
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 DOWN = const(1)
 UP   = const(8)
@@ -36,12 +37,38 @@ class LedAdapter:
 		self.value( False )
 
 
+class ButtonPressed:
+	def __init__(self, pin, debounce_ms=10, expire_ms=3000 ):
+		# debouce_ms : time required before accepting the pressed state
+		# expires_ms : max time to read the pressed state
+		self.pin = pin
+		self.debounce_ms = debounce_ms
+		self.expire_ms = expire_ms
+		self.last = None # Last pressed
+		self.pin.irq(trigger=Pin.IRQ_FALLING, handler=self.handler )
+		
+	def handler( self, btn ):
+		self.last = time.ticks_ms()
+
+	@property
+	def pressed( self ):
+		if self.last==None:
+			return False
+		delta = time.ticks_diff( time.ticks_ms(), self.last )
+		if delta<self.debounce_ms:
+			return False
+		self.last = None
+		return delta<self.expire_ms
+
+
 class OledBoot(SH1106_I2C):
 	def __init__( self, oled_addr=0x3c, mcp_addr=0x26, rotate=0 ):
 		self.i2c = I2C( 1, sda=Pin(6), scl=Pin(7), freq=400000 )
 		self.a = Pin( 3, Pin.IN, Pin.PULL_UP )
 		self.b = Pin( 2, Pin.IN, Pin.PULL_UP )
 
+		self.__button_a = None # Install ButtonPressed and its hander at the first call
+		self.__button_b = None
 
 		self.mcp = MCP23008( i2c=self.i2c, address=mcp_addr )
 		self.mcp.setup( 5, Pin.OUT )
@@ -70,4 +97,15 @@ class OledBoot(SH1106_I2C):
 		vals = self.mcp.input_pins( [0,1,2,3,4,7] )
 		return sum( [JOY_VALUES[idx] for idx,value in enumerate(vals) if value==False] )
 
+	@property
+	def button_a( self ):
+		if self.__button_a==None:
+			self.__button_a = ButtonPressed( self.a )
+		return self.__button_a
+
+	@property
+	def button_b( self ):
+		if self.__button_b==None:
+			self.__button_b = ButtonPressed( self.b )
+		return self.__button_b
 

@@ -1,9 +1,9 @@
-# Tetris game for Pico-Oled_boot
+# Breakout game for Pico-Oled_boot
 #
 # See repository: https://github.com/mchobby/pico-oled-boot
 #
-# Adapted from Tetris for Arduino by by Electrofrikis
-# see reference at https://youtu.be/AJirbbCUdwY?si=cJlkSsqpL5Z3x4bI
+# Adapted from DIY-Handled-Arduino-Game-Console for Arduino by VishnumKer
+# see reference at https://github.com/Circuit-Digest/DIY-Handheld-Arduino-Game-Console
 #
 from micropython import const
 from oledboot import *
@@ -45,6 +45,17 @@ def draw_intro():
 
 def draw_score():
 	pass
+
+def draw_gameover():	
+	display.fill_rect( 25, 16, 78, 36, 0 )	
+	display.rect( 26, 17, 76, 34, 1 )	
+	display.text( "GAME OVER", 28, 21)
+	text_drawer.text( "Score: %i" % score, 45, 29, 1 )
+	text_drawer.text( "Press key", 45, 39, 1 )
+	display.show()
+	while not display.any_key_pressed:
+		time.sleep_ms(50)		
+
 
 def init_level():
 	global bricks, left, pad_x, pad_y, b_x, b_y, v_x, v_y, lives, score, last_frame
@@ -105,12 +116,7 @@ def draw_frame():
 		lives -= 1
 		#beep(200, 300);
 		if lives <= 0: 
-			display.text( "GAME OVER", (128-9*8)//2, display.height//3)
-			text_drawer.text( "Score: %i" % score, 45, display.height//3 +8, 1 )
-			text_drawer.text( "Press key", 45, display.height//3+18, 1 )
-			display.show()
-			while not display.any_key_pressed:
-				time.sleep_ms(50)		
+			draw_gameover()
 			return False
 
 		time.sleep_ms(600)
