@@ -2,22 +2,13 @@
 -  Somes games of interest  -
 -----------------------------
 
-# 10 retro-games for arduino and OLED
+# Space Trash GameMine
 
-- Asteroids – Navigate and destroy space rocks.
-- Breakout – Classic paddle and ball brick-breaking action.
-- Dino Run – Skip over obstacles in this endless runner.
-- Flappy Bird – Avoid pipes with perfectly timed flaps.
-- Maze Runner – Find your way through randomly generated mazes.
-- Pacman – Eat dots and avoid ghosts in the classic maze.
-- Pong – The original table tennis simulation.
-- Snake – Grow as long as possible without hitting walls or yourself.
-- Space Invaders – Defend Earth from waves of alien invaders.
-- Tetris – Stack blocks and clear lines in this iconic puzzle game.
+https://www.instructables.com/Space-Trash-Game-Using-Arduino-and-OLED-Display/
 
+# PacMan
 
-https://circuitdigest.com/microcontroller-projects/handheld-arduino-game-console
-https://github.com/Circuit-Digest/DIY-Handheld-Arduino-Game-Console
+https://forum.arduino.cc/t/pac-man-sur-ecran-oled/504302
 
 # MoonBench 
 
@@ -45,23 +36,8 @@ https://github.com/makeabilitylab/arduino/tree/master/OLED/Pong
 
 # MineSweeper
 
------------------------------
--  Somes CLOCK of interest   -
------------------------------
 
-Alarm Timer
-Chronometer
-GPIO meter (start & stop with GPIO)
-Clock (if PCF or DS3231 wired)
+# Chess game
 
------------------------------
--  Somes ACCS of interest   -
------------------------------
 
-Click Counter
 
------------------------------
--  Somes I2C of interest   -
------------------------------
-
-Compass

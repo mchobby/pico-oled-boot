@@ -1,0 +1,12 @@
+-----------------------------
+-  Somes I2C of interest   -
+-----------------------------
+
+Temperature Chart
+  https://hackaday.com/2018/11/01/drawing-on-an-oled-with-an-attiny85-no-ram-buffers-allowed/
+
+Compass
+  BMM
+
+ADS1115 
+   Make it a voltmeter (see accs voltmeters for graphical output)
