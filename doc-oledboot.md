@@ -50,6 +50,19 @@ Offre un accès aux boutons A ou B. Comme ce sont des instances de classe Pin,le
 
 La valeur retournée est __`False` lorsque le bouton est pressé__ et `True` lorsqu'il est relâché.
 
+### Attributs button_a: ButtonPressed, button_b: ButtonPressed 
+
+Au premier appel, la propriété crée une instance de `ButtonPressed` et l'associe à la broche correspondante associé avec un mécanisme d'interruption. De la sorte, la bibliothèque est avertie que le bouton à été pressé ... même si le code utilisateur est occupé a une autre tâche.
+
+Le script pourra détecter l'activation a l'aide d'un appel à l'attribut `pressed`. Celui-ci retourne `True` sur le bouton a été pressé depuis la dernière interrogation de l'attribut. L'état est immédiatement réinitialisé à `False` après l'acquisition. 
+
+```
+from oledboot import *
+lcd = OledBoot()
+
+print( lcd.button_a.pressed )
+```
+
 ### Attributs red: LedAdapter, green: LedAdapter
 
 Propose un accès aux LEDs verte (__green__) et rouge (__red__) situées au dessus du joystick.
@@ -62,6 +75,10 @@ Vérifie l'état du joystick (et bouton _Start_) puis retourne une des constante
 
 A noter que si plusieurs actions sont combinées comme RIGHT+START or LEFT+START+ENTER alors les différentes constantes impliquées sont sommées ensembles.
 
+### Attribut any_key_pressed: bool
+
+Vérifie si le bouton A, bouton B, bouton Start ou bouton ENTER est pressé.
+
 ## Classe LedAdapter
 
 La classe __LedAdapter__ est conçue pour contôler les LEDs connectées sur le __GPIO expander__ (MCP23008) comme si elles étaient attachées sur des broches du microcontrôleur (donc comme des objets de type `Pin`). 
@@ -72,3 +89,8 @@ Par conséquent la LED rouge (_red_) et LED verte (_green_) peuvent être comman
 * __off()__ : désactive la LED
 * __value()__ : utilise le paramètre booléen pour activer/désactiver la LED. Sans paramètre: retourne le dernier état connu.
 
+## Classe ButtonPressed
+
+La classe __ButtonPressed__ associe un mécanisme IRQ avec les broches des boutons A et B. Cette classe est instanciée par la classe `OledBoot`. La classe __ButtonPressed__ espose la propriété:
+
+* __pressed__ : retourne `True` lorsque le bouton a été pressé depuis la dernière vérification. La valeur est immédiatement réinitialisée à `False` après une lecture positive.

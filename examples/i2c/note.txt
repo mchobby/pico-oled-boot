@@ -2,6 +2,10 @@
 -  Somes I2C of interest   -
 -----------------------------
 
+I2C Address Scanner 
+
+I2C Bridge?
+
 Temperature Chart
   https://hackaday.com/2018/11/01/drawing-on-an-oled-with-an-attiny85-no-ram-buffers-allowed/
 
@@ -10,3 +14,6 @@ Compass
 
 ADS1115 
    Make it a voltmeter (see accs voltmeters for graphical output)
+
+Multiple Thermocouple Sensors
+
