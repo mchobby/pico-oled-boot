@@ -2,9 +2,8 @@
 -  Somes I2C of interest   -
 -----------------------------
 
-I2C Address Scanner 
-
-I2C Bridge?
+I2C Bridge? with spy mode
+  getting instuction over USB Serial and spy communication in the both direction
 
 Temperature Chart
   https://hackaday.com/2018/11/01/drawing-on-an-oled-with-an-attiny85-no-ram-buffers-allowed/

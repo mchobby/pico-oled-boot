@@ -4,7 +4,7 @@ from mcp230xx import MCP23008
 from micropython import const
 import time
 
-__version__ = '0.1.2'
+__version__ = '0.1.3'
 
 DOWN = const(1)
 UP   = const(8)
@@ -63,7 +63,8 @@ class ButtonPressed:
 
 class OledBoot(SH1106_I2C):
 	def __init__( self, oled_addr=0x3c, mcp_addr=0x26, rotate=0 ):
-		self.i2c = I2C( 1, sda=Pin(6), scl=Pin(7), freq=400000 )
+		self.i2c = None
+		self.init_i2c( freq=400_000 )
 		self.a = Pin( 3, Pin.IN, Pin.PULL_UP )
 		self.b = Pin( 2, Pin.IN, Pin.PULL_UP )
 
@@ -82,6 +83,11 @@ class OledBoot(SH1106_I2C):
 
 		super().__init__( 128, 64, self.i2c, None, oled_addr, rotate=rotate )
 		self.sleep(False) # Wake-up the OLED
+
+	def init_i2c( self, **kwarg ):
+		if self.i2c:
+			del( self.i2c )
+		self.i2c = I2C( 1, sda=Pin(6), scl=Pin(7), **kwarg )
 
 	@property
 	def any_key_pressed( self ):
