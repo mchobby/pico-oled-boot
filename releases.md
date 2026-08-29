@@ -1,3 +1,15 @@
+# 0.1.3 - ***NONAME*** - ***
+
+* Pico-Oled-Core library : add init_i2c() to reconfigure I2C (0.1.3)
+* Add I2C Scanner example
+
+
+# 0.1.2 - GAMES - Aug 24, 2026
+
+* No change to Pico-Oled-Core library (0.1.2)
+* add games: MineSweeper, Snake, Astroid, Breakout, Dino, DotMan, Invader, Tank
+* New master.out/Pico-Oled-Master publication
+
 # 0.1.1 - LABYRINTH - Aug 1, 2026
 
 * No change to Pico-Oled-Core library (still 0.1.1)
