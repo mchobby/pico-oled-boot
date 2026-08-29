@@ -50,6 +50,20 @@ Gives access to the A or B buttons. As they are instances of Pin class, user cod
 
 Reading the value return `False` when the button is pressed and `True` when released.
 
+### members button_a: ButtonPressed, button_b: ButtonPressed 
+
+At first call, the property creates a `ButtonPressed` instance associated with the pin together with interruption mechanism. As such, the library is alerted when the button is pressed, even when the user script is currently processing a task.
+
+The user script will detect the button activation thank to the `pressed` member. It will returns `True` when the button have been pressed since the last `pressed` call. The state is immediately reset to `False` after the value acquisition. 
+
+```
+from oledboot import *
+lcd = OledBoot()
+
+print( lcd.button_a.pressed )
+```
+
+
 ### Members red: LedAdapter, green: LedAdapter
 
 Gives access to the "green" and "red" leds above the joystick.
@@ -62,6 +76,10 @@ Check the current state of the joystick (and Start button) then returns one of t
 
 Note that several action can be combined like RIGHT+START or LEFT+START+ENTER. In such case, the innvolved constant value are sum.
 
+### Member any_key_pressed: bool
+
+Check if any of the A, B, Start and ENTER button is pressed
+
 ## LedAdapter class
 
 The __LedAdapter__ class is designed to control the both LED on the GPIO expander (MCP23008) as it was simple Pin class. So the class expose the methodes:
@@ -70,4 +88,9 @@ The __LedAdapter__ class is designed to control the both LED on the GPIO expande
 * __off()__ : deactivates the LED
 * __value()__ : use the boolean parameter to set/unset the LED state. Without parameter, it returns the last known value.
 
+## ButtonPressed class
+
+The __ButtonPressed__ class associate IRQ mechanism with the pin of button A and B. This class is instanciated by the `OledBoot` class. The __ButtonPressed__ class expose the property:
+
+* __pressed__ : returns `True` when the button have been pressed since last check. Is immediately reset to `False` after a succesful check.
 
