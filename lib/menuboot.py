@@ -319,7 +319,7 @@ class MenuBoot:
 
 	def add_combo( self, code, label, entries, default, enabled=True ):
 		menu_item = self.add_label( code, label, enabled )
-		menu_item.cargo = ComboControler( self, menu_item, entries, default, ) # Owner, Parent
+		menu_item.cargo = ComboControler( self, menu_item, entries, default ) # Owner, Parent
 
 	def start( self ):
 		# Initialize the structure
@@ -427,7 +427,7 @@ class MenuBoot:
 
 	def update( self ):
 		# When selected item have a dedicated controler => call it!
-		if self._selected and self.items[self._selected].cargo:
+		if (self._selected!=None) and self.items[self._selected].cargo:
 			return self.items[self._selected].cargo.update()
 		# Call it as often as possible, Return True if an entry is selected
 		_dir = self.oled.dir
