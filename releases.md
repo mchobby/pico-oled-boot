@@ -2,6 +2,8 @@
 
 * Pico-Oled-Core library : add init_i2c() to reconfigure I2C (0.1.3)
 * Add I2C Scanner example
+* Advanced USB Device support (install notes)
+* Add UART Example : Serial Monitor, USB-Serial Pass-Through
 
 
 # 0.1.2 - GAMES - Aug 24, 2026

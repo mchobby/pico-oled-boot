@@ -1,23 +1,38 @@
-# serialmon.py - Serial Monitor for Pico-Oled-boot on UART(0) GP0=TX, RX=GP1
+# usbserial.py - USB-Serial pass through for Pico-Oled-boot on UART(0) GP0=TX, RX=GP1
+#
+# Note:
+#  * Immediately starts CDC interface
+#  * On RP2, starting CDC will terminate the active REPL/MPRemote connexion.
+#  * Use a terminal software over the USB CDC connexion
 #
 # See repository: https://github.com/mchobby/pico-oled-boot
+# See MICROPYTHON LIB on USB : https://github.com/micropython/micropython-lib/tree/master/micropython/usb/examples/device
 #
 from oledboot import *
 from menuboot import *
 from fbtext import *
 from font8x4 import Font8X4
-from icontls import draw_icon # see https://github.com/mchobby/FBGFX/lib/
 import time, _thread
 from micropython import const
 from machine import UART
-from ringbuf import RingBuffer
-from maps import slice_by
+import usb.device
+from usb.device.cdc import CDCInterface
 
-RING_BUF_SIZE = 1024 
 
-DEFAULT_MODE  = "HEX" # Display Mode
-DEFAULT_SEP   = "CR" # Send Separator
-DEFAULT_LOG   = "OFF" # FILE=Log to file, OFF=Log off
+print('Starting USB CDC...')
+# Zero timeout makes this non-blocking, suitable for os.dupterm().
+cdc = CDCInterface(timeout=0)
+
+# pass builtin_driver=True so that we get the built-in USB-CDC alongside,
+# if it's available.
+usb.device.get().init(cdc, builtin_driver=False)
+
+print("Waiting for USB host to configure the interface...")
+
+# wait for host enumerate as a CDC device...
+while not cdc.is_open():
+    time.sleep_ms(100)
+
 
 BAUD_RATES = (115200,57600,38400,9600,4800,1200,300)
 DEFAULT_BAUD = "9600"
@@ -92,31 +107,25 @@ class UARTConfig:
 	def as_text( self ):
 		return "%s%s%s @ %s" % ( self.bits, self.parity, self.stop, self.baudrate)
 
-class APPConfig:
-	def __init__( self ):
-		self.mode = DEFAULT_MODE
-		self.sep  = DEFAULT_SEP
-		self.log  = DEFAULT_LOG
 
 uart_config = UARTConfig()
-app_config = APPConfig()
 
 buf16 = bytearray( 16 ) # UART read buffer
 buf16mv = memoryview(buf16)
-ring = RingBuffer( RING_BUF_SIZE, run_over=True ) # overwrite buffer content
-ring_lock = _thread.allocate_lock()
-i2c_lock = _thread.allocate_lock()
+
 uart = UART(0,tx=Pin(0),rx=Pin(1),baudrate=9600 )
 uart.init( **uart_config.kwargs ) # Set default configuration
-paused= False # Pause data acquisition
-last_paused= time.ticks_ms()
+
+last_reset = None # Last time the Reset Stat have been pressed
+uart_rx_stat = 0  # shared with Thread
+uart_tx_stat = 0
+stat_lock = _thread.allocate_lock()
+i2c_lock  = _thread.allocate_lock()
 
 def make_main_menu( lcd ):
 	menu = MenuBoot(lcd)
 	menu.add_label( "UART" , 'UART Config' )
-	menu.add_combo( "MODE" , 'Mode: %s' , [("HEX","Hex."),("ASCII","Ascii"),("PLOT","Plotter")], app_config.mode  )
-	menu.add_combo( "SEP"  , 'Sep : %s' , [("CR","CR"), ("CRLF","CR/LF"), ("LF","LF"), ("NONE", 'None')], app_config.sep )
-	menu.add_combo( "LOG"  , 'Log : %s' , [("FILE","File"),("OFF","off")], app_config.log )
+	menu.add_label( "RST"  , 'Reset Stat.' )
 	return menu
 
 
@@ -132,81 +141,69 @@ def make_uart_menu( lcd ):
 _disp_thread_halt = False # Halting the display thread
 _disp_thread = None
 
-def serialmon_disp( lcd ):
-	# Perform the SerialMonitor job
-	global buf16, paused, ring_lock, i2c_lock, _disp_thread_halt
-	_disp_thread_halt = False
+def stat_disp( lcd ):
+	# Perform the Stat Display job
+	global buf16, stat_lock, i2c_lock, _disp_thread_halt
+	global uart_rx_stat, uart_tx_stat # Global Stats
 
-	_top_pos = None # Position of the top-left char to display
+	_disp_thread_halt = False
+	_rx_stat = 0
+	_tx_stat = 0
 	while not _disp_thread_halt:
 
 		# === Update display ===
 		# Display time ~750ms !
 		start = time.ticks_ms()
 		lcd.fill(0)
-		# 8 bytes per line * 5 lines
-		read_max = 40
 
-		if not(paused) or (_top_pos==None): # auto-follow or initialize
-			ring_lock.acquire()
-			if ring.available_for_reading<read_max:
-				read_max = ring.available_for_reading
-			# Copy the last max_len bytes from ring_buffer
-			_top_pos = ring.index_put-read_max			
-			data = ring.copy_from( _top_pos, read_max )
-			ring_lock.release()
-		else: # we are paused
-			ring_lock.acquire()
-			data = ring.copy_from( _top_pos, read_max )
-			ring_lock.release()
+		stat_lock.acquire()
+		# Mpcam copy of the GLOBAL stat
+		_rx_stat = uart_rx_stat
+		_tx_stat = uart_tx_stat
+		stat_lock.release()
 
-		dlines =  slice_by( data, 8 )
-		for lidx, dline in enumerate(dlines):
-			for cidx in range( 0, len(dline), 2 ): # By step of two			
-				tdraw.text( hex(dline[cidx])[2:]  , cidx//2*21   +(cidx//4), 11+lidx*10, 1 )
-				tdraw.text( hex(dline[cidx+1])[2:], cidx//2*21+10+(cidx//4), 11+lidx*10, 1 )
-			for cidx, c in enumerate(dline):
-				tdraw.text( chr(c), 87+cidx*5, 11+lidx*10, 1 )
-
-		#print( "put", ring.index_put, "get", ring.index_get, "Free", ring.free, "Avail for reading", ring.available_for_reading )
-
-		# Status Bar
-		if paused:
-			tdraw.text( "Cursor: %i / %i" % (_top_pos, ring.size), 0,0,1 )
-		else:
-			tdraw.text( uart_config.as_text, 0,0, 1 )
-		
-		tdraw.text( "paused" if paused else "run", 96,0, 1)
+		tdraw.text( uart_config.as_text, 0,0, 1 )
 		lcd.hline( 0, 9, 128, 1 )
-		lcd.vline( 85,11,53, 1)
-		# content
-		i2c_lock.acquire()
+
+		lcd.fill_rect( 0,20, 36,32, 1 )
+		lcd.text( "UART", 2,32, 0 )
+		
+		lcd.rect( 128-28, 20, 28, 32, 1 )
+		lcd.text( "USB" , 128-26, 32)
+
+		lcd.text( ">", 94, 24, 1 )
+		lcd.hline( 38, 27, 60, 1 )
+		lcd.text( "<", 35, 42, 1 )
+		lcd.hline( 38, 45, 60, 1 )
+		s = str(_rx_stat)
+		tdraw.text( s, 64-len(s)*5//2, 17, 1 )
+		s = str(_tx_stat )
+		tdraw.text( s, 64-len(s)*5//2, 35, 1 )
+
+		i2c_lock.acquire()		
 		lcd.show()
 		_dir = lcd.dir
 		i2c_lock.release()
 		
-		if paused: # Calculate new cursor position
-			print(_dir)
-			if _dir==UP:
-				_top_pos -= 8 # One line up
-				_top_pos = _top_pos % ring.size
-				#if _top_pos<=ring.index_get:
-				#	_top_pos = ring.index_get
-			if _dir==DOWN:
-				_top_pos += 8
-				_top_pos = _top_pos % ring.size
-				#if top_pos >= ring.index_put-1-40: # 40 is nbr of char that can be read
-				#	_top_pos = ring.index_put-1-40
+		if _dir==START:
+			# Reset the GLOBAL statistics
+			stat_lock.acquire()			
+			uart_rx_stat = 0
+			uart_tx_stat = 0
+			stat_lock.release()
+
 		# Display time
 		# print( time.ticks_diff(time.ticks_ms(),start) )
+		time.sleep_ms(100)
 	print( "_disp_thread exit")
 
 # Introduction screen
 lcd.fill(0)
-lcd.text('Serial Monitor', (lcd.width-(14*8))//2, 0 )
-tdraw.text('START: begin/stop.', 0, 64-30, 1 )
-tdraw.text('A: Menu show/hide', 0, 64-20, 1 )
-tdraw.text('B: Send',0,64-10, 1 )
+lcd.text('USB-Serial', (lcd.width-(10*8))//2, 0 )
+tdraw.text('press any key', (lcd.width-(14*4))//2, 10, 1 ) 
+tdraw.text('START: reset Stat.', 0, 64-30, 1 )
+tdraw.text('A: Menu', 0, 64-20, 1 )
+tdraw.text('B: ',0,64-10, 1 )
 i2c_lock.acquire()
 lcd.show()
 while not( lcd.any_key_pressed ):
@@ -214,7 +211,6 @@ while not( lcd.any_key_pressed ):
 i2c_lock.release()
 
 time.sleep_ms(500)
-
 
 # Current Display State
 STATE_DISPLAY   = const(0)
@@ -249,28 +245,31 @@ while True:
 			_disp_thread = None
 			time.sleep_ms(500)
 
-	elif _dir==START:
-		if time.ticks_diff(time.ticks_ms(),last_paused)>500:
-			paused = not(paused)
-			print( "update paused", paused)
-			last_paused = time.ticks_ms()
-		
-
 
 	# === Screen Refresh ===
 	if state==STATE_DISPLAY:
 		# === Capture data ===
-		if not(paused) and uart.any():
+		if uart.any():
 			cnt = uart.readinto( buf16 )
 			if cnt!=None:
 				# print( cnt, ':', bytes(buf16mv[0:cnt]) )
-				ring_lock.acquire()
-				ring.put_from( buf16mv[0:cnt] )
-				ring_lock.release()
-					# Start display thread if not yet started
+				#ring_lock.acquire()
+				#ring.put_from( buf16mv[0:cnt] )
+				#ring_lock.release()
+				cdc.write( buf16mv[0:cnt] )
+				stat_lock.acquire()
+				uart_rx_stat += cnt
+				stat_lock.release()
+		cnt = cdc.readinto( buf16 ) # timeout=0 -> no wait!
+		if (cnt!=None) and (cnt>0):
+			uart.write( buf16mv[0:cnt] )
+			stat_lock.acquire()
+			uart_tx_stat += cnt
+			stat_lock.release()
+		# Start display thread if not yet started
 		if _disp_thread == None:
 			print("Creating _disp_thread")
-			_disp_thread = _thread.start_new_thread( serialmon_disp, (lcd,) )
+			_disp_thread = _thread.start_new_thread( stat_disp, (lcd,) )
 
 
 	elif state==STATE_MAIN_MENU:
@@ -306,6 +305,6 @@ while True:
 				uart.init( **uart_config.kwargs )
 				state=STATE_DISPLAY
 
-	time.sleep_ms(20)
+	time.sleep_ms(5)
 
 # speed = int(menu.selected.code) # the menu code is the speed

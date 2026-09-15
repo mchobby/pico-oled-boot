@@ -45,6 +45,8 @@ Absolute required libraries are:
 
 Those are installed with the package [pico-oled-boot/package.json](package.json) .
 
+The [installation for advance USB Device support is documented here](doc-usbdevice_ENG.md).
+
 ## Masters installation
 
 The [masters.out/](masters.out) folder contains archive containing examples and libraries... everything is there!

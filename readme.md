@@ -31,7 +31,7 @@ Côté logiciel, vous disposez de tous les bibliothèques MicroPython nécessair
 
 Le [schéma est également disponible ici](docs/_static/pico-oled-boot-schematic.jpg)
 
-# Bibliothèque
+# Bibliothèques
 
 La bibliothèque doit être copiée sur votre carte MicroPython MicroPython avant de pouvoir exécuter les exemples.
 
@@ -44,6 +44,8 @@ Bibliothèque absolument nécessaires:
 * __mcp230xx__ : lecture du joystick
 
 Celle-cis sont installée avec le package [pico-oled-boot/package.json](package.json) .
+
+L'[installation du support avancé USB Device est documenté ici](doc-usbdevice.md).
 
 ## Installation Masters
 
