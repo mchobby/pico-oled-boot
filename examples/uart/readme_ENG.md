@@ -15,3 +15,13 @@ The __[usb-serial](usb-serial)__ example allow to configure the UART setting via
 ![USB-Serial in action](usb-serial/docs/usbserial-1.jpg)
 
 More information on its dedicated [readme file](usb-serial/readme.md) .
+
+# dupterm
+
+The __[uart-dupterm](uart-dupterm)__ example allow the user to configure the UART setting then replicates the REPL prompt on the UART. Once done, the script ends its execution. 
+
+The can control the MicroPython plateform via the UART with a tool like Thonny, MPRemote, RShell or terminal software. 
+
+![dupterm in action](dupterm/docs/dupterm-02.jpg)
+
+More information in the [readme file](dupterm/readme.md) .

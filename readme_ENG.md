@@ -81,7 +81,8 @@ The repository contains various examples script as first hand helper:
 * __[RoboEyes examples](examples/roboeyes/)__ : using RoboEyes on the Pico-Oled-Boot<br />![RoboEyes sample](docs/_static/roboeyes.jpg)
 * __[animation examples](examples/anim/)__ : animation can be displayed on the Pico-Oled-Boot< br/>See the [examples/anim/](examples/anim/) folder.
 *  __[clock examples](examples/clock/)__ : various clock examples using the Pico-Oled-Boot display.<br />![Digital clock](docs/_static/clock_digital.jpg)
-* __[i2c sensor examples](examples/i2c/)__ : Various examples displaying informations collected from I2C Sensor.<br />![BMP280/BME280 sensor connected on Qwiic/StemmaQT displaying their values](docs/_static/pico-oled-boot-bmp280.jpg)
+* __[i2c examples](examples/i2c/)__ : Various examples around I2C bus & I2C Sensors.<br />![BMP280/BME280/MCP9808 sensor connected on Qwiic/StemmaQT displaying their values](docs/_static/pico-oled-boot-bmp280.jpg)
+* __[UART examples](examples/uart/)__ : Various examples arount the UART.<br />![Serial Monitor](examples/uart/docs/_static/serialmon-capture-hex.jpg)
 * __[fonts (examples)](examples/fonts/)__ : Various examples showing how to use other fonts with yout Pico-Oled-Boot.
 * __[menu examples](examples/menu/)__ : Menu features scripts examples<br />![OledMenu in action](docs/_static/menu-boot-01.jpg)
 *  __[input examples](examples/input/)__ : Various input screen examples<br />![Field Editor](docs/_static/oled-edit-01.jpg)
@@ -158,7 +159,7 @@ lcd.b.irq( handler=b_pressed, trigger=Pin.IRQ_RISING )
 
 ## Menu display
 
-![Navigate the menu](boot/_static/menu-boot-nav.jpg)
+![Navigate the menu](docs/_static/menu-boot-nav.jpg)
 
 See below the OledMenu library description (and file examples).
 

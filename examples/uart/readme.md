@@ -15,3 +15,16 @@ L'exemple __[usb-serial](usb-serial)__ permet de configurer l'UART puis transfor
 ![USB-Serial en action](usb-serial/docs/usbserial-1.jpg)
 
 Plus d'information sur le [fichier readme](usb-serial/readme.md) dédicacé.
+
+# dupterm
+
+L'exemple __[uart-dupterm](uart-dupterm)__ permet de configurer l'UART puis répliquer l'invite REPL sur l'UART. Une fois fait, l'exécution du script s'achève. 
+
+L'utilisateur peut prendre le contrôle de la plateforme MicroPython via l'UART (avec Thonny, MPRemote, RShell ou un logiciel terminal). 
+
+![dupterm en action](dupterm/docs/dupterm-02.jpg)
+
+Plus d'information sur le [fichier readme](dupterm/readme.md) dédicacé.
+
+
+

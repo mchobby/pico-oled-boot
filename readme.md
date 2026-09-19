@@ -80,7 +80,8 @@ Le dépôt contient divers exemples pour faciliter la prise en main:
 * __[roboeyes (exemples)](examples/roboeyes/)__ : utiliser la bibliothèque RoboEyes avec le Pico-Oled-Boot<br />![Exemples RoboEyes](docs/_static/roboeyes.jpg)
 * __[animation (exemples)](examples/anim/)__ : des animations peuvent être affichées sur le Pico-Oled-Boot.
 * __[clock (exemples)](examples/clock/)__ : divers exemples d'horloges exploitant l'affichage du Pico-Oled-Boot.<br />![Horloge digital](docs/_static/clock_digital.jpg)
-* __[capteurs i2c (exemples)](examples/i2c/)__ : Divers exemples affichant des données en provenance de capteurs I2C connectés sur le connecteur qwiic/stemmaQt<br />![Capteur BMP280/BME280 sur Qwiic/StemmaQT avec affichage de valeur](docs/_static/pico-oled-boot-bmp280.jpg)
+* __[bus i2c (exemples)](examples/i2c/)__ : Divers exemples autour du bus et capteurs I2C. Affiche des données en provenance de capteurs I2C connectés sur le connecteur qwiic/stemmaQt<br />![Capteur BMP280/BME280 sur Qwiic/StemmaQT avec affichage de valeur](docs/_static/pico-oled-boot-bmp280.jpg)
+* __[UART (exemples)](examples/uart/)__ : Divers exemples autour de l'UART.<br />![Serial Monitor](examples/uart/docs/_static/serialmon-capture-hex.jpg)
 * __[fonts (exemples)](examples/fonts/)__ : Divers exemples démontrant l'utilisation d'autres Fonts avec votre Pico-Oled-Boot.
 *  __[menu (exemples)](examples/menu/)__ : Scripts d'exemples démontrant les fonctionnalités du menu<br />![OledMenu en action](docs/_static/menu-boot-01.jpg)
 *  __[input (exemples)](examples/input/)__ : Différents exemples d'écran de saisie<br />![Field Editor](docs/_static/oled-edit-01.jpg)
@@ -160,7 +161,7 @@ lcd.b.irq( handler=b_pressed, trigger=Pin.IRQ_RISING )
 
 The Pico-Oled-Boot feature a reusable menu. User scripts can also displays their own menu.
 
-![Naviger dans le menu](boot/_static/menu-boot-nav.jpg)
+![Naviger dans le menu](docs/_static/menu-boot-nav.jpg)
 
 The 
 Voir la description de la bibliothèque OledMenu ci-dessous (et les fichiers d'exemples).
